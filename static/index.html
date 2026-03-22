@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FPL Captain AI — Dashboard</title>
+    <meta name="description" content="FPL Captain Multi-Agent System Dashboard — AI-powered captaincy and transfer recommendations">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>">
+</head>
+<body>
+
+<!-- Hero -->
+<header class="hero">
+    <div class="hero-inner">
+        <div class="hero-brand">
+            <span class="logo">⚽</span>
+            <div>
+                <h1>FPL Captain AI</h1>
+                <p>10-Agent Multi-Agent System</p>
+            </div>
+        </div>
+        <div class="controls">
+            <div class="input-group">
+                <label>Entry ID</label>
+                <input type="text" id="entryId" placeholder="e.g. 1234567">
+            </div>
+            <div class="input-group">
+                <label>Gameweek</label>
+                <input type="text" id="gameweek" value="latest" placeholder="latest">
+            </div>
+            <div class="input-group">
+                <label>Season</label>
+                <input type="text" id="season" value="2024-25" placeholder="2024-25">
+            </div>
+            <button class="btn-run" id="runBtn" onclick="runPipeline()">
+                ▶ Run Analysis
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Status Bar -->
+<div class="status-bar">
+    <span class="status-dot" id="statusDot"></span>
+    <span id="statusText">Ready — Enter your Entry ID and click Run Analysis</span>
+</div>
+
+<!-- Main Content -->
+<main class="container" id="mainContent">
+    <!-- Empty State -->
+    <div class="empty-state" id="emptyState">
+        <div class="icon">🧠</div>
+        <h3>No analysis data yet</h3>
+        <p>Enter your FPL Entry ID above and run the 10-agent pipeline to get AI-powered recommendations.</p>
+    </div>
+
+    <!-- Loading Skeleton -->
+    <div class="loading-skeleton" id="loadingSkeleton">
+        <div class="spinner"></div>
+        <p id="loadingText">Running 10-agent analysis pipeline...</p>
+    </div>
+
+    <!-- Results (hidden initially) -->
+    <div id="results" style="display:none">
+
+        <!-- Agent 10: Gaffer (Captain) -->
+        <section class="section" id="sectionGaffer">
+            <div class="section-header">
+                <span class="icon">🧠</span>
+                <h2>Captain Recommendation</h2>
+                <span class="badge">AGENT 10</span>
+            </div>
+            <div class="card gaffer-card" id="gafferCard"></div>
+        </section>
+
+        <!-- Agent 6: Captain Picks -->
+        <section class="section" id="sectionCaptain">
+            <div class="section-header">
+                <span class="icon">🔥</span>
+                <h2>Top Squad Picks — Form & ICT</h2>
+                <span class="badge">AGENT 6</span>
+            </div>
+            <div class="card" id="captainCard"></div>
+        </section>
+
+        <!-- Agent 7: NPA -->
+        <section class="section" id="sectionNPA">
+            <div class="section-header">
+                <span class="icon">🛡️</span>
+                <h2>Position Analysis — Bench / Sell Candidates</h2>
+                <span class="badge">AGENT 7</span>
+            </div>
+            <div class="card" id="npaCard"></div>
+        </section>
+
+        <section class="section" id="sectionScout">
+            <div class="section-header">
+                <span class="icon">🌍</span>
+                <h2>Global Market Scan — Top Picks</h2>
+                <span class="badge">AGENT 8</span>
+            </div>
+            <div class="card" id="scoutCard">
+                <div class="table-filters">
+                    <input type="text" id="scoutNameFilter" class="filter-input" placeholder="Search player name..." oninput="updateTable('scout')">
+                    <select id="scoutStatusFilter" class="filter-select" onchange="updateTable('scout')">
+                        <option value="ALL">All Status</option>
+                        <option value="SQUAD">In Squad</option>
+                        <option value="MARKET">Market Only</option>
+                    </select>
+                    <select id="scoutPosFilter" class="filter-select" onchange="updateTable('scout')">
+                        <option value="ALL">All Positions</option>
+                        <option value="GKP">GKP</option>
+                        <option value="DEF">DEF</option>
+                        <option value="MID">MID</option>
+                        <option value="FWD">FWD</option>
+                    </select>
+                </div>
+                <div id="scoutTableWrapper"></div>
+            </div>
+        </section>
+
+        <!-- Agent 9: Specialist -->
+        <section class="section" id="sectionSpecialist">
+            <div class="section-header">
+                <span class="icon">🎯</span>
+                <h2>Weighted Difficulty Score — Tier Breakdown</h2>
+                <span class="badge">AGENT 9</span>
+            </div>
+            <div class="card" id="specialistCard"></div>
+        </section>
+
+        <!-- Rules Summary -->
+        <section class="section" id="sectionRules">
+            <div class="section-header">
+                <span class="icon">📋</span>
+                <h2>Captaincy Rules Summary</h2>
+                <span class="badge">AGENT 1</span>
+            </div>
+            <div class="card rules-card" id="rulesCard"></div>
+        </section>
+
+    </div>
+</main>
+
+<script src="/app.js"></script>
+</body>
+</html>

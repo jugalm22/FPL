@@ -3,3 +3,6 @@ __pycache__/
 *$py.class
 .env
 config.json
+Fantasy-Premier-League/
+*.json
+!requirements.txt

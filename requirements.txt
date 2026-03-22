@@ -5,3 +5,5 @@ langchain-core
 requests
 beautifulsoup4
 pandas
+flask
+flask-cors
